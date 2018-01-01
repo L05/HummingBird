@@ -1,10 +1,12 @@
 
 import p5 from 'p5';
+import HummingBird from './hummingBird';
 import AudioInput from './audioInput';
 
 class Sketch {
   constructor() {
     this.audioInput = new AudioInput();
+    this.HummingBird = new HummingBird();
   }
 
   setup() {
@@ -34,9 +36,7 @@ class Sketch {
     vertex(0, map(mean, 0, 255, height, 0));
     vertex(width, map(mean, 0, 255, height, 0));
     endShape();
-
-    // console.log(freq.value);
-    // console.log("TEST");
+    
 
     if (freq) {
       stroke(255,0,0);
