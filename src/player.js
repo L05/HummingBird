@@ -6,29 +6,29 @@ class Player {
 
   // Constructors
     constructor(x_, y_, dx_) {
-      this.x         = x_;
-      this.y         = y_;
-      this.prevY     = y_;
+      this.x          = x_;
+      this.y          = y_;
+      this.prevY      = y_;
 
-      this.dx        = dx_;
-      this.dy        = 0;
+      this.dx         = dx_;
+      this.dy         = 0;
 
-      this.r         = 0;
+      this.r          = 0;
 
-      this.lagDy     = new Lag();
+      this.lagDy      = new Lag();
 
-      this.bounceFreq   = 10;
-      this.bounceAmp    = 4;
+      this.bounceFreq = 10;
+      this.bounceAmp  = 4;
 
-      this.alive     = true;
+      this.alive      = true;
 
-      this.w         = 90;
-      this.h         = 63;
+      this.w          = 90;
+      this.h          = 63;
 
-      this.score     = 0;
+      this.score      = 0;
 
-      this.strokeClr = color(255);
-      this.fillClr   = color(0);
+      this.strokeClr  = color(255);
+      this.fillClr    = color(0);
 
       // particles = new ArrayList<Particle>();
     }

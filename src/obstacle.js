@@ -5,18 +5,18 @@ class Obstacle {
 
   // Constructors
   constructor(x_, low_, high_, gapSize_, dx_) {
-    this.low       = low_;
-    this.high      = high_;
-    this.gapSize   = gapSize_;
-    this.x         = x_;
-    this.dx        = dx_;
-    this.w         = 168;
-    this.gapY      = random(this.low, this.high);
-    this.onScreen  = true;
-    this.cleared   = false;
+    this.low        = low_;
+    this.high       = high_;
+    this.gapSize    = gapSize_;
+    this.x          = x_;
+    this.dx         = dx_;
+    this.w          = 168;
+    this.gapY       = random(this.low, this.high);
+    this.onScreen   = true;
+    this.cleared    = false;
 
-    this.fillClr   = color(0);
-    this.strokeClr = color(255);
+    this.fillClr    = color(0);
+    this.strokeClr  = color(255);
   }
 
 // Draw pipes
@@ -30,7 +30,6 @@ class Obstacle {
     let y2 = h1 + this.gapSize;
     let h2  = height - y2;
 
-    noTint();
     stroke(this.strokeClr);
     fill(this.fillClr);
     rect(x1, x1 - 10, this.w, h1 - 10);
