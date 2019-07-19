@@ -1,26 +1,39 @@
 var path = require('path');
-
-var SRC_DIR = path.join(__dirname, "src");
-var NODE_MODULES = path.join(__dirname, 'node_modules');
+var LiveReloadPlugin = require('webpack-livereload-plugin');
+var HtmlWebpackPlugin = require('html-webpack-plugin');
 
 module.exports = {
- module: {
-  loaders: [
-   {
-    test: /\.js?/,
-    include: SRC_DIR,
-    exclude: NODE_MODULES,
-    loader: 'babel',
-    query: {
-     presets: ['es2015']
-    }
-   }
-  ]
- },
- watch: true,
- devtool: "inline-source-map",
- entry: SRC_DIR + '/app.js',
- output: {
-  filename: 'app.bundle.js'
- }
+    module: {
+        rules: [
+            {
+                test: /\.js$/,
+                exclude: /node_modules/,
+                use: {
+                    loader: 'babel-loader'
+                }
+            }
+        ]
+    },
+    watch: true,
+    mode: 'development',
+    devtool: 'inline-source-map',
+    context: __dirname,
+    entry: './client/app.js',
+    target: 'web',
+    output: {
+        filename: 'app.bundle.js',
+        path: path.resolve(__dirname, 'dist')
+    },
+    resolve: {
+        extensions: ['.js', '.json']
+    },
+    plugins: [
+        new HtmlWebpackPlugin({
+            template: 'client/index.html',
+            filename: 'index.html',
+            inject: true
+        }),
+        new LiveReloadPlugin({appendScriptTag: true})
+    ]
+
 };

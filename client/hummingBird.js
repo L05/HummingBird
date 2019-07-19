@@ -162,4 +162,4 @@ class HummingBird {
   }
 }
 
-module.exports = HummingBird;
+export default HummingBird;

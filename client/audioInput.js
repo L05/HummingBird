@@ -175,4 +175,4 @@ class AudioInput {
 
 }
 
-module.exports = AudioInput;
+export default AudioInput;

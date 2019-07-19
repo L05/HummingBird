@@ -27,4 +27,4 @@ class Lag {
   }
 }
 
-module.exports = Lag;
+export default Lag;

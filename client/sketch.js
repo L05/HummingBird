@@ -66,4 +66,4 @@ class Sketch {
   }
 }
 
-module.exports = Sketch;
+export default Sketch;
