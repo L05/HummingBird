@@ -1,13 +1,14 @@
 import p5 from 'p5';
 
 import HummingBird from './hummingBird';
-import AudioInput from './audioInput';
 import Obstacle from "./obstacle";
 
 class Sketch {
     constructor() {
         this.hummingBird = null;
         this.obstacles = [];
+        this.lastObstacle = null;
+        this.obstacleSpan = 800;
     }
 
     static getWindowWidth() {
@@ -43,21 +44,33 @@ class Sketch {
         const height = Sketch.getWindowHeight();
 
         if (this.obstacles.length === 0) {
-            const obstacle = new Obstacle(width / 2, height);
+            const obstacle = new Obstacle(width, height);
 
             this.obstacles.push(obstacle);
+            this.lastObstacle = obstacle;
+        }
+
+        if (width - this.lastObstacle.getX() > this.obstacleSpan) {
+            const obstacle = new Obstacle(width, height);
+
+            this.obstacles.push(obstacle);
+            this.lastObstacle = obstacle;
         }
 
         this.hummingBird.update();
 
         for (let i = 0; i < this.obstacles.length; i++) {
-            // this.obstacles[i].update(this.hummingBird.getSpeed());
-            // this.obstacles[i].isColliding(this.hummingBird);
-            // this.obstacles[i].isCleared(this.hummingBird);
+            this.obstacles[i].update(this.hummingBird.getSpeed());
+            this.obstacles[i].isColliding(this.hummingBird);
+            this.obstacles[i].isCleared(this.hummingBird);
         }
     }
 
     draw() {
+        if (!this.hummingBird.isAlive()) {
+            noLoop();
+            console.log("Game Over!");
+        }
         this.update();
 
         background(0);
