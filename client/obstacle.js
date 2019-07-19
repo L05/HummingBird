@@ -36,6 +36,9 @@ class Obstacle {
     }
 
     isColliding(bird) {
+        if (this.cleared) {
+            return false;
+        }
         const birdX = bird.getX();
         const birdY = bird.getY();
         const birdW = bird.getWidth();
@@ -60,11 +63,18 @@ class Obstacle {
     }
 
     isCleared(bird) {
+        if (this.cleared) {
+            return true;
+        }
+
         const birdX = bird.getX();
 
         if (birdX > this.xPosition + this.xDelta) {
             this.cleared = true;
             bird.incrementObstaclesCleared();
+            return true;
+        } else {
+            return false;
         }
     }
 }

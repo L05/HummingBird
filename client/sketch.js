@@ -31,6 +31,7 @@ class Sketch {
 
         background(0);
         frameRate(60);
+        textSize(16);
 
         this.hummingBird = new HummingBird(width, height);
     }
@@ -67,18 +68,25 @@ class Sketch {
     }
 
     draw() {
-        if (!this.hummingBird.isAlive()) {
-            noLoop();
-            console.log("Game Over!");
-        }
-        this.update();
-
         background(0);
 
         this.hummingBird.draw();
 
         for (let i = 0; i < this.obstacles.length; i++) {
             this.obstacles[i].draw();
+        }
+
+        fill(255);
+        text(`Score: ${this.hummingBird.getObstaclesCleared()}`, 10, 10, 100, 50);
+
+        this.update();
+
+        if (!this.hummingBird.isAlive()) {
+            noLoop();
+            fill(255);
+            textSize(64);
+            textAlign(CENTER, CENTER);
+            text('Game Over!', 0, 0, Sketch.getWindowWidth(), Sketch.getWindowHeight());
         }
     }
 }

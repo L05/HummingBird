@@ -7,7 +7,7 @@ class HummingBird {
     this.viewport = {x: viewportWidth, y: viewportHeight};
     this.speed = 5;
 
-    this.xPosition = viewportWidth / 16;
+    this.xPosition = viewportWidth / 10;
     this.yPosition = window.mouseY;
     this.xDelta = 50;
     this.yDelta = 50;
