@@ -1,7 +1,7 @@
+import p5 from 'p5';
+
 // Check this out:
 //  http://access.feld.cvut.cz/view.php?cisloclanku=2009060001
-
-import p5 from 'p5';
 import 'p5/lib/addons/p5.sound';
 import _ from 'lodash';
 
