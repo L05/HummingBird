@@ -1,14 +1,39 @@
 import p5 from 'p5';
 
 import 'p5/lib/addons/p5.sound';
-// import Lag from './lag';
-// import Player from './player';
-// import Obstacle from './obstacle';
-
-// This is a work in progress. I'm porting it and need to improve/optimize it as
-// well. -L05
 
 class HummingBird {
+  constructor(viewportWidth, viewportHeight) {
+    this.viewport = {x: viewportWidth, y: viewportHeight};
+    this.speed = 10;
+
+    this.xPosition = viewportWidth / 16;
+    this.yPosition = viewportHeight / 2;
+    this.xDelta = 50;
+    this.yDelta = 50;
+
+    this.fillColor = color('rgb(0,255,0)');
+    this.strokeColor = color(255);
+  }
+
+  draw() {
+    stroke(this.strokeColor);
+    fill(this.fillColor);
+
+    rect(
+        this.xPosition,
+        this.yPosition,
+        this.xDelta,
+        this.yDelta);
+  }
+
+  getSpeed() {
+    return this.speed;
+  }
+
+  update() {
+
+  }
 
 }
 
