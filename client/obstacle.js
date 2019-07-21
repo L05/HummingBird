@@ -1,6 +1,12 @@
 import p5 from 'p5';
 
 import 'p5/lib/addons/p5.sound';
+import {
+    COLOR_BLUE_VALUE,
+    COLOR_WHITE_VALUE,
+    OBSTACLE_GAP_SIZE,
+    OBSTACLE_WIDTH
+} from './constants';
 
 class Obstacle {
 
@@ -8,15 +14,15 @@ class Obstacle {
     constructor(viewportWidth, viewportHeight) {
         this.viewport = {x: viewportWidth, y: viewportHeight};
         this.xPosition = viewportWidth;
-        this.gapSize = 100;
+        this.gapSize = OBSTACLE_GAP_SIZE * viewportHeight;
         this.gapPosition = random(0, viewportHeight - this.gapSize);
 
-        this.xDelta = 100;
+        this.xDelta = OBSTACLE_WIDTH * viewportWidth;
         this.onScreen = true;
         this.cleared = false;
 
-        this.fillColor = color('rgb(0,0,255)');
-        this.strokeColor = color(255);
+        this.fillColor = color(COLOR_BLUE_VALUE);
+        this.strokeColor = color(COLOR_WHITE_VALUE);
     }
 
     getX() {

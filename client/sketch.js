@@ -2,13 +2,20 @@ import p5 from 'p5';
 
 import HummingBird from './hummingBird';
 import Obstacle from "./obstacle";
+import {
+    COLOR_WHITE_VALUE,
+    GAME_OVER_TEXT_SIZE,
+    OBSTACLE_SPAN, SCORE_TEXT_HEIGHT, SCORE_TEXT_WIDTH,
+    SCORE_TEXT_X_POS,
+    SCORE_TEXT_Y_POS
+} from "./constants";
 
 class Sketch {
     constructor() {
         this.hummingBird = null;
         this.obstacles = [];
         this.lastObstacle = null;
-        this.obstacleSpan = 800;
+        this.obstacleSpan = OBSTACLE_SPAN;
     }
 
     static getWindowWidth() {
@@ -36,8 +43,17 @@ class Sketch {
         this.hummingBird = new HummingBird(width, height);
     }
 
+    reset() {
+        const width = Sketch.getWindowWidth();
+        const height = Sketch.getWindowHeight();
+
+        this.obstacles = [];
+        this.hummingBird = new HummingBird(width, height);
+    }
+
     windowResized() {
         resizeCanvas(Sketch.getWindowWidth(), Sketch.getWindowHeight());
+        this.reset();
     }
 
     update() {
@@ -51,7 +67,7 @@ class Sketch {
             this.lastObstacle = obstacle;
         }
 
-        if (width - this.lastObstacle.getX() > this.obstacleSpan) {
+        if (width - this.lastObstacle.getX() > this.obstacleSpan * width) {
             const obstacle = new Obstacle(width, height);
 
             this.obstacles.push(obstacle);
@@ -76,15 +92,15 @@ class Sketch {
             this.obstacles[i].draw();
         }
 
-        fill(255);
-        text(`Score: ${this.hummingBird.getObstaclesCleared()}`, 10, 10, 100, 50);
+        fill(COLOR_WHITE_VALUE);
+        text(`Score: ${this.hummingBird.getObstaclesCleared()}`, SCORE_TEXT_X_POS, SCORE_TEXT_Y_POS, SCORE_TEXT_WIDTH, SCORE_TEXT_HEIGHT);
 
         this.update();
 
         if (!this.hummingBird.isAlive()) {
             noLoop();
-            fill(255);
-            textSize(64);
+            fill(COLOR_WHITE_VALUE);
+            textSize(GAME_OVER_TEXT_SIZE);
             textAlign(CENTER, CENTER);
             text('Game Over!', 0, 0, Sketch.getWindowWidth(), Sketch.getWindowHeight());
         }
