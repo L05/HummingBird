@@ -8,6 +8,7 @@ import {
     COLOR_WHITE_VALUE,
     COLOR_GREEN_VALUE
 } from './constants';
+import {MOUSE_Y} from "./mouseInput";
 
 
 class HummingBird {
@@ -16,7 +17,7 @@ class HummingBird {
         this.speed = HUMMINGBIRD_SPEED * viewportWidth;
 
         this.xPosition = HUMMINGBIRD_X_POS_FIXED * viewportWidth;
-        this.yPosition = window.mouseY;
+        this.yPosition = 0;
         this.yDelta = HUMMINGBIRD_COLLISION_EDGE_HEIGHT * viewportHeight;
         this.xDelta = HUMMINGBIRD_COLLISION_EDGE_HEIGHT * viewportHeight;
 
@@ -58,8 +59,9 @@ class HummingBird {
         this.obstaclesCleared = this.obstaclesCleared + 1;
     }
 
-    update() {
-        this.yPosition = window.mouseY;
+    update(player) {
+        const input = player.getInput();
+        this.yPosition = input[MOUSE_Y];
     }
 
     getX() {

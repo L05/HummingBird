@@ -15,7 +15,12 @@ export const OBSTACLE_GAP_SIZE = 0.115; // Calculated from 100 / 871
 
 // TEXT
 export const GAME_OVER_TEXT_SIZE = 64;
+export const PAUSED_TEXT_SIZE = 64;
 export const SCORE_TEXT_X_POS = 10;
 export const SCORE_TEXT_Y_POS = 10;
 export const SCORE_TEXT_WIDTH = 100;
 export const SCORE_TEXT_HEIGHT = 50;
+export const RESET_TEXT_X_POS = -200;
+export const RESET_TEXT_Y_POS = 10;
+export const RESET_TEXT_WIDTH = 200;
+export const RESET_TEXT_HEIGHT = 100;

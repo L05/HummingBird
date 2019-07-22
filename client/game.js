@@ -5,17 +5,28 @@ import Obstacle from "./obstacle";
 import {
     COLOR_WHITE_VALUE,
     GAME_OVER_TEXT_SIZE,
-    OBSTACLE_SPAN, SCORE_TEXT_HEIGHT, SCORE_TEXT_WIDTH,
+    PAUSED_TEXT_SIZE,
+    OBSTACLE_SPAN,
+    SCORE_TEXT_HEIGHT,
+    SCORE_TEXT_WIDTH,
     SCORE_TEXT_X_POS,
-    SCORE_TEXT_Y_POS
+    SCORE_TEXT_Y_POS,
+    RESET_TEXT_X_POS,
+    RESET_TEXT_Y_POS,
+    RESET_TEXT_WIDTH,
+    RESET_TEXT_HEIGHT
 } from "./constants";
+import Player from "./player";
+import {CONTROL, R_KEY, SPACE} from "./keyboardInput";
 
-class Sketch {
+class Game {
     constructor() {
         this.hummingBird = null;
+        this.player = null;
         this.obstacles = [];
         this.lastObstacle = null;
         this.obstacleSpan = OBSTACLE_SPAN;
+        this.gamePaused = false;
     }
 
     static getWindowWidth() {
@@ -31,8 +42,8 @@ class Sketch {
     }
 
     setup() {
-        const width = Sketch.getWindowWidth();
-        const height = Sketch.getWindowHeight();
+        const width = Game.getWindowWidth();
+        const height = Game.getWindowHeight();
 
         createCanvas(width, height);
 
@@ -41,24 +52,25 @@ class Sketch {
         textSize(16);
 
         this.hummingBird = new HummingBird(width, height);
+        this.player = new Player();
     }
 
     reset() {
-        const width = Sketch.getWindowWidth();
-        const height = Sketch.getWindowHeight();
+        const width = Game.getWindowWidth();
+        const height = Game.getWindowHeight();
 
         this.obstacles = [];
         this.hummingBird = new HummingBird(width, height);
     }
 
     windowResized() {
-        resizeCanvas(Sketch.getWindowWidth(), Sketch.getWindowHeight());
+        resizeCanvas(Game.getWindowWidth(), Game.getWindowHeight());
         this.reset();
     }
 
     update() {
-        const width = Sketch.getWindowWidth();
-        const height = Sketch.getWindowHeight();
+        const width = Game.getWindowWidth();
+        const height = Game.getWindowHeight();
 
         if (this.obstacles.length === 0) {
             const obstacle = new Obstacle(width, height);
@@ -74,7 +86,7 @@ class Sketch {
             this.lastObstacle = obstacle;
         }
 
-        this.hummingBird.update();
+        this.hummingBird.update(this.player);
 
         for (let i = 0; i < this.obstacles.length; i++) {
             this.obstacles[i].update(this.hummingBird.getSpeed());
@@ -83,7 +95,25 @@ class Sketch {
         }
     }
 
+    updatePlayState() {
+        const input = this.player.getInput();
+        if (input[CONTROL] && input[R_KEY]) {
+            this.reset();
+        }
+
+        if (input[SPACE] && !this.gamePaused) {
+            this.gamePaused = true;
+        }
+
+        // if (input[SPACE] && this.gamePaused) {
+        //     this.gamePaused = false;
+        // }
+    }
+
     draw() {
+        const width = Game.getWindowWidth();
+        const height = Game.getWindowHeight();
+
         background(0);
 
         this.hummingBird.draw();
@@ -94,17 +124,32 @@ class Sketch {
 
         fill(COLOR_WHITE_VALUE);
         text(`Score: ${this.hummingBird.getObstaclesCleared()}`, SCORE_TEXT_X_POS, SCORE_TEXT_Y_POS, SCORE_TEXT_WIDTH, SCORE_TEXT_HEIGHT);
+        fill(COLOR_WHITE_VALUE);
+        text('Reset: [CTRL + R]\nPause: [SPACE]', width + RESET_TEXT_X_POS, RESET_TEXT_Y_POS, RESET_TEXT_WIDTH, RESET_TEXT_HEIGHT);
 
-        this.update();
+        this.updatePlayState();
+
+        if (!this.gamePaused) {
+            this.update();
+        }
+
 
         if (!this.hummingBird.isAlive()) {
-            noLoop();
             fill(COLOR_WHITE_VALUE);
             textSize(GAME_OVER_TEXT_SIZE);
             textAlign(CENTER, CENTER);
-            text('Game Over!', 0, 0, Sketch.getWindowWidth(), Sketch.getWindowHeight());
+            text('Game Over!', 0, 0, width, height);
+            return;
         }
+
+        if (this.gamePaused) {
+            fill(COLOR_WHITE_VALUE);
+            textSize(PAUSED_TEXT_SIZE);
+            textAlign(CENTER, CENTER);
+            text('Paused', 0, 0, width, height);
+        }
+
     }
 }
 
-export default Sketch;
+export default Game;
