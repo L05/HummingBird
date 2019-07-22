@@ -12,12 +12,7 @@ class AudioInput {
 	}
 
 	getFFT() {
-		return this.fft.analyze();
-	}
-
-	getWaveform() {
-		return this.fft.waveform();
-
+		return this.fft;
 	}
 
 	getLevel() {
