@@ -6,15 +6,9 @@ To download dependencies, run from root project directory:
 npm install
 ```
 
-To bundle javascript for index.html, run gulp against gulpfile:
+To run:
 ```
-node node_modules/gulp
-```
-
-Or install gulp globally:
-```
-npm install gulp -g
-gulp
+npm run start
 ```
 
-Finally, open index.html to see app.
+Open localhost:3000 in browser
