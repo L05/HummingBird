@@ -91,6 +91,10 @@ class Game {
             this.obstacles[i].check(this.hummingBird);
         }
 
+        if (!this.obstacles[0].isOnScreen()) {
+            this.obstacles.shift();
+        }
+
         if (!this.hummingBird.isAlive()) {
             this.gameState = GAME_OVER;
         }

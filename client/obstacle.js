@@ -28,6 +28,10 @@ class Obstacle {
         this.frameEval = parseInt(GAME_FPS / OBSTACLE_COLLISION_DETECT_FPS);
     }
 
+    isOnScreen() {
+        return this.onScreen;
+    }
+
     getX() {
         return this.xPosition;
     }
@@ -42,6 +46,10 @@ class Obstacle {
 
     update(birdSpeed) {
         this.xPosition = this.xPosition - birdSpeed;
+
+        if (this.xPosition + this.xDelta < 0) {
+            this.onScreen = false;
+        }
     }
 
     check(bird) {
