@@ -8,6 +8,7 @@ import {
 } from "./constants";
 import Player from "./player";
 import {CONTROL, R_KEY, SPACE} from "./keyboardInput";
+import AudioOverlay from "./audioOverlay";
 
 export const PLAY = 'PLAY';
 export const PAUSED = 'PAUSE';
@@ -16,6 +17,7 @@ export const GAME_OVER = 'GAME_OVER';
 class Game {
     constructor() {
         this.hummingBird = null;
+        this.audio = null;
         this.player = null;
         this.obstacles = [];
         this.lastObstacle = null;
@@ -42,12 +44,12 @@ class Game {
         const height = Game.getWindowHeight();
 
         createCanvas(width, height);
-        this.page = createGraphics(width, height);
 
         background(0);
         frameRate(GAME_FPS);
 
         this.player = new Player();
+        this.audio = new AudioOverlay(this.player, createGraphics(width, height));
         this.hummingBird = new HummingBird(this.player, width, height);
     }
 
@@ -115,9 +117,6 @@ class Game {
         this.updateGameStatus();
 
         background(0);
-        this.page.background(200);
-
-        image(this.page, 0, this.page.height - 200, 200, 200);
 
         this.hummingBird.draw();
 
@@ -126,6 +125,7 @@ class Game {
         }
 
         this.player.draw(this.gameState);
+        this.audio.draw(this.gameState);
 
         if (this.gameState === PLAY) {
             this.update();

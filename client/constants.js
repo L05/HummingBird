@@ -1,10 +1,14 @@
 // GAME
 export const GAME_FPS = 60;
 
+
+// AUDIO INPUT
+export const AUDIO_OVERLAY_EDGE_LENGTH = 0.230; // Calculated from 200 / 871;
+
 // HUMMINGBIRD
 export const HUMMINGBIRD_X_POS_FIXED = 0.15; // Calculated from 1680 / 10;
 export const HUMMINGBIRD_SPEED = 0.003; // Calculated from 5 / 1680
-export const HUMMINGBIRD_COLLISION_EDGE_HEIGHT = 0.057; // Calculated from 50 / 871
+export const HUMMINGBIRD_COLLISION_EDGE_LENGTH = 0.057; // Calculated from 50 / 871
 
 // COLOR
 export const COLOR_GREEN_VALUE = 'rgb(0,255,0)';

@@ -3,7 +3,7 @@ import p5 from 'p5';
 import 'p5/lib/addons/p5.sound';
 import {
     HUMMINGBIRD_SPEED,
-    HUMMINGBIRD_COLLISION_EDGE_HEIGHT,
+    HUMMINGBIRD_COLLISION_EDGE_LENGTH,
     HUMMINGBIRD_X_POS_FIXED,
     COLOR_WHITE_VALUE,
     COLOR_GREEN_VALUE
@@ -18,8 +18,8 @@ class HummingBird {
 
         this.xPosition = HUMMINGBIRD_X_POS_FIXED * viewportWidth;
         this.yPosition = player.getInput()[MOUSE_Y];
-        this.yDelta = HUMMINGBIRD_COLLISION_EDGE_HEIGHT * viewportHeight;
-        this.xDelta = HUMMINGBIRD_COLLISION_EDGE_HEIGHT * viewportHeight;
+        this.yDelta = HUMMINGBIRD_COLLISION_EDGE_LENGTH * viewportHeight;
+        this.xDelta = HUMMINGBIRD_COLLISION_EDGE_LENGTH * viewportHeight;
 
         this.fillColor = color(COLOR_GREEN_VALUE);
         this.strokeColor = color(COLOR_WHITE_VALUE);
