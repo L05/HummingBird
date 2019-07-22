@@ -8,7 +8,7 @@ import {
     COLOR_WHITE_VALUE,
     COLOR_GREEN_VALUE
 } from './constants';
-import {MOUSE_Y} from "./mouseInput";
+import {MOUSE_Y} from "./player";
 
 
 class HummingBird {

@@ -1,7 +1,7 @@
 import p5 from 'p5';
 
 import 'p5/lib/addons/p5.sound';
-import MouseInput from "./mouseInput";
+import AudioInput from './audioInput';
 import {
     GAME_OVER_TEXT_SIZE,
     PAUSED_TEXT_SIZE,
@@ -18,12 +18,17 @@ import {
 import {GAME_OVER, PAUSED} from "./game";
 import Game from "./game";
 
+export const MOUSE_X = 'MOUSE_X';
+export const MOUSE_Y = 'MOUSE_Y';
+export const AUDIO_WAVEFORM = 'AUDIO_WAVEFORM';
+export const AUDIO_LEVEL = 'AUDIO_LEVEL';
+export const AUDIO_FFT = 'AUDIO_FFT';
+
 class Player {
     constructor() {
         this.score = 0;
         this.hiScore = 0;
-
-        this.mouseInput = new MouseInput();
+        this.audio = new AudioInput();
     }
 
     update(score) {
@@ -33,7 +38,11 @@ class Player {
 
     getInput() {
         return {
-            ...this.mouseInput.getMousePosition()
+            [MOUSE_X]: window.mouseX,
+            [MOUSE_Y]: window.mouseY,
+            [AUDIO_WAVEFORM]: this.audio.getWaveform(),
+            [AUDIO_LEVEL]: this.audio.getLevel(),
+            [AUDIO_FFT]: this.audio.getFFT()
         }
     }
 
