@@ -3,21 +3,15 @@ import p5 from 'p5';
 import HummingBird from './hummingBird';
 import Obstacle from "./obstacle";
 import {
-    COLOR_WHITE_VALUE,
-    GAME_OVER_TEXT_SIZE,
-    PAUSED_TEXT_SIZE,
-    OBSTACLE_SPAN,
-    SCORE_TEXT_HEIGHT,
-    SCORE_TEXT_WIDTH,
-    SCORE_TEXT_X_POS,
-    SCORE_TEXT_Y_POS,
-    RESET_TEXT_X_POS,
-    RESET_TEXT_Y_POS,
-    RESET_TEXT_WIDTH,
-    RESET_TEXT_HEIGHT
+    GAME_FPS,
+    OBSTACLE_SPAN
 } from "./constants";
 import Player from "./player";
 import {CONTROL, R_KEY, SPACE} from "./keyboardInput";
+
+export const PLAY = 'PLAY';
+export const PAUSED = 'PAUSE';
+export const GAME_OVER = 'GAME_OVER';
 
 class Game {
     constructor() {
@@ -26,7 +20,9 @@ class Game {
         this.obstacles = [];
         this.lastObstacle = null;
         this.obstacleSpan = OBSTACLE_SPAN;
-        this.gamePaused = false;
+        this.page = null;
+
+        this.gameState = PLAY;
     }
 
     static getWindowWidth() {
@@ -46,13 +42,13 @@ class Game {
         const height = Game.getWindowHeight();
 
         createCanvas(width, height);
+        this.page = createGraphics(width, height);
 
         background(0);
-        frameRate(60);
-        textSize(16);
+        frameRate(GAME_FPS);
 
-        this.hummingBird = new HummingBird(width, height);
         this.player = new Player();
+        this.hummingBird = new HummingBird(this.player, width, height);
     }
 
     reset() {
@@ -60,7 +56,9 @@ class Game {
         const height = Game.getWindowHeight();
 
         this.obstacles = [];
-        this.hummingBird = new HummingBird(width, height);
+        this.hummingBird = new HummingBird(this.player, width, height);
+
+        this.gameState = PLAY;
     }
 
     windowResized() {
@@ -90,31 +88,32 @@ class Game {
 
         for (let i = 0; i < this.obstacles.length; i++) {
             this.obstacles[i].update(this.hummingBird.getSpeed());
-            this.obstacles[i].isColliding(this.hummingBird);
-            this.obstacles[i].isCleared(this.hummingBird);
+            this.obstacles[i].check(this.hummingBird);
+        }
+
+        if (!this.hummingBird.isAlive()) {
+            this.gameState = GAME_OVER;
         }
     }
 
-    updatePlayState() {
+    updateGameStatus() {
         const input = this.player.getInput();
         if (input[CONTROL] && input[R_KEY]) {
             this.reset();
         }
 
-        if (input[SPACE] && !this.gamePaused) {
-            this.gamePaused = true;
+        if (input[SPACE] && this.gameState === PLAY) {
+            this.gameState = PAUSED;
         }
-
-        // if (input[SPACE] && this.gamePaused) {
-        //     this.gamePaused = false;
-        // }
     }
 
     draw() {
-        const width = Game.getWindowWidth();
-        const height = Game.getWindowHeight();
+        this.updateGameStatus();
 
         background(0);
+        this.page.background(200);
+
+        image(this.page, 0, this.page.height - 200, 200, 200);
 
         this.hummingBird.draw();
 
@@ -122,33 +121,11 @@ class Game {
             this.obstacles[i].draw();
         }
 
-        fill(COLOR_WHITE_VALUE);
-        text(`Score: ${this.hummingBird.getObstaclesCleared()}`, SCORE_TEXT_X_POS, SCORE_TEXT_Y_POS, SCORE_TEXT_WIDTH, SCORE_TEXT_HEIGHT);
-        fill(COLOR_WHITE_VALUE);
-        text('Reset: [CTRL + R]\nPause: [SPACE]', width + RESET_TEXT_X_POS, RESET_TEXT_Y_POS, RESET_TEXT_WIDTH, RESET_TEXT_HEIGHT);
+        this.player.draw(this.gameState);
 
-        this.updatePlayState();
-
-        if (!this.gamePaused) {
+        if (this.gameState === PLAY) {
             this.update();
         }
-
-
-        if (!this.hummingBird.isAlive()) {
-            fill(COLOR_WHITE_VALUE);
-            textSize(GAME_OVER_TEXT_SIZE);
-            textAlign(CENTER, CENTER);
-            text('Game Over!', 0, 0, width, height);
-            return;
-        }
-
-        if (this.gamePaused) {
-            fill(COLOR_WHITE_VALUE);
-            textSize(PAUSED_TEXT_SIZE);
-            textAlign(CENTER, CENTER);
-            text('Paused', 0, 0, width, height);
-        }
-
     }
 }
 

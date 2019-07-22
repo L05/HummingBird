@@ -3,7 +3,7 @@ import p5 from 'p5';
 import 'p5/lib/addons/p5.sound';
 import {
     COLOR_BLUE_VALUE,
-    COLOR_WHITE_VALUE,
+    COLOR_WHITE_VALUE, GAME_FPS, OBSTACLE_COLLISION_DETECT_FPS,
     OBSTACLE_GAP_SIZE,
     OBSTACLE_WIDTH
 } from './constants';
@@ -23,6 +23,9 @@ class Obstacle {
 
         this.fillColor = color(COLOR_BLUE_VALUE);
         this.strokeColor = color(COLOR_WHITE_VALUE);
+
+        this.frameNum = 0;
+        this.frameEval = parseInt(GAME_FPS / OBSTACLE_COLLISION_DETECT_FPS);
     }
 
     getX() {
@@ -41,10 +44,22 @@ class Obstacle {
         this.xPosition = this.xPosition - birdSpeed;
     }
 
-    isColliding(bird) {
+    check(bird) {
         if (this.cleared) {
-            return false;
+            return;
         }
+
+        this.frameNum++;
+
+        if (this.frameNum === this.frameEval) {
+            this.checkColliding(bird);
+            this.checkCleared(bird);
+
+            this.frameNum = 0;
+        }
+    }
+
+    checkColliding(bird) {
         const birdX = bird.getX();
         const birdY = bird.getY();
         const birdW = bird.getWidth();
@@ -62,25 +77,15 @@ class Obstacle {
 
         if (isFrontColliding || isTopColliding || isBottomColliding) {
             bird.setAlive(false);
-            return true;
-        } else {
-            return false;
         }
     }
 
-    isCleared(bird) {
-        if (this.cleared) {
-            return true;
-        }
-
+    checkCleared(bird) {
         const birdX = bird.getX();
 
         if (birdX > this.xPosition + this.xDelta) {
             this.cleared = true;
             bird.incrementObstaclesCleared();
-            return true;
-        } else {
-            return false;
         }
     }
 }

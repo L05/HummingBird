@@ -12,12 +12,12 @@ import {MOUSE_Y} from "./mouseInput";
 
 
 class HummingBird {
-    constructor(viewportWidth, viewportHeight) {
+    constructor(player, viewportWidth, viewportHeight) {
         this.viewport = {x: viewportWidth, y: viewportHeight};
         this.speed = HUMMINGBIRD_SPEED * viewportWidth;
 
         this.xPosition = HUMMINGBIRD_X_POS_FIXED * viewportWidth;
-        this.yPosition = 0;
+        this.yPosition = player.getInput()[MOUSE_Y];
         this.yDelta = HUMMINGBIRD_COLLISION_EDGE_HEIGHT * viewportHeight;
         this.xDelta = HUMMINGBIRD_COLLISION_EDGE_HEIGHT * viewportHeight;
 
@@ -62,6 +62,7 @@ class HummingBird {
     update(player) {
         const input = player.getInput();
         this.yPosition = input[MOUSE_Y];
+        player.update(this.getObstaclesCleared());
     }
 
     getX() {
