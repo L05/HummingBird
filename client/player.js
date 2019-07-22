@@ -1,7 +1,6 @@
 import p5 from 'p5';
 
 import 'p5/lib/addons/p5.sound';
-import KeyboardInput from "./keyboardInput";
 import MouseInput from "./mouseInput";
 import {
     GAME_OVER_TEXT_SIZE,
@@ -24,7 +23,6 @@ class Player {
         this.score = 0;
         this.hiScore = 0;
 
-        // this.keyboardInput = new KeyboardInput();
         this.mouseInput = new MouseInput();
     }
 
@@ -35,7 +33,6 @@ class Player {
 
     getInput() {
         return {
-            // ...this.keyboardInput.getKeys(),
             ...this.mouseInput.getMousePosition()
         }
     }
@@ -66,7 +63,7 @@ class Player {
         fill(COLOR_WHITE_VALUE);
         textSize(16);
         textAlign(LEFT, TOP);
-        text('Reset: [CTRL + R]\nPause: [SPACE]', width + RESET_TEXT_X_POS, RESET_TEXT_Y_POS, RESET_TEXT_WIDTH, RESET_TEXT_HEIGHT);
+        text('Reset: [R]\nPause: [SPACE]', width + RESET_TEXT_X_POS, RESET_TEXT_Y_POS, RESET_TEXT_WIDTH, RESET_TEXT_HEIGHT);
     }
 }
 

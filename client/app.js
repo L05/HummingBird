@@ -1,7 +1,8 @@
 import Game from './game'
 
-const sketch = new Game();
-window.setup = () => sketch.setup();
-window.draw = () => sketch.draw();
-window.update = () => sketch.update();
-window.windowResized = () => sketch.windowResized();
+const game = new Game();
+window.setup = () => game.setup();
+window.draw = () => game.draw();
+window.update = () => game.update();
+window.windowResized = () => game.windowResized();
+window.keyTyped = () => game.keyTyped();

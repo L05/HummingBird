@@ -7,7 +7,6 @@ import {
     OBSTACLE_SPAN
 } from "./constants";
 import Player from "./player";
-import {CONTROL, R_KEY, SPACE} from "./keyboardInput";
 import AudioOverlay from "./audioOverlay";
 
 export const PLAY = 'PLAY';
@@ -22,7 +21,6 @@ class Game {
         this.obstacles = [];
         this.lastObstacle = null;
         this.obstacleSpan = OBSTACLE_SPAN;
-        this.page = null;
 
         this.gameState = PLAY;
     }
@@ -37,6 +35,20 @@ class Game {
         return window.innerHeight
             || document.documentElement.clientHeight
             || document.getElementsByTagName('body')[0].clientHeight
+    }
+
+    keyTyped() {
+        if (key === 'r') {
+            this.reset();
+            return;
+        }
+        if (key === ' ' && this.gameState === PLAY) {
+            this.gameState = PAUSED;
+            return;
+        }
+        if (key === ' ' && this.gameState === PAUSED) {
+            this.gameState = PLAY;
+        }
     }
 
     setup() {
@@ -102,20 +114,7 @@ class Game {
         }
     }
 
-    updateGameStatus() {
-        const input = this.player.getInput();
-        if (input[CONTROL] && input[R_KEY]) {
-            this.reset();
-        }
-
-        if (input[SPACE] && this.gameState === PLAY) {
-            this.gameState = PAUSED;
-        }
-    }
-
     draw() {
-        this.updateGameStatus();
-
         background(0);
 
         this.hummingBird.draw();
